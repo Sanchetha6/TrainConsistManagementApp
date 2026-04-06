@@ -1,32 +1,47 @@
-import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
+    static class Bogie {
+        String type;
+        int capacity;
+
+        Bogie(String type, int capacity) {
+            this.type = type;
+            this.capacity = capacity;
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(" UC11 - Validate Train ID and Cargo Code ");
+        System.out.println(" UC13 - Performance Comparison (Loops vs Streams) ");
 
-        Scanner scanner = new Scanner(System.in);
+        List<Bogie> bogies = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            bogies.add(new Bogie("Sleeper", 50 + (i % 50)));
+        }
 
-        System.out.print("Enter Train ID (Format: TRN-1234): ");
-        String trainId = scanner.nextLine();
+        long loopStart = System.nanoTime();
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
+        }
+        long loopEnd = System.nanoTime();
+        long loopTime = loopEnd - loopStart;
 
-        System.out.print("Enter Cargo Code (Format: PET-AB): ");
-        String cargoCode = scanner.nextLine();
+        long streamStart = System.nanoTime();
+        List<Bogie> streamResult = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+        long streamEnd = System.nanoTime();
+        long streamTime = streamEnd - streamStart;
 
-        Pattern trainIdPattern = Pattern.compile("TRN-\\d{4}");
-        Pattern cargoCodePattern = Pattern.compile("PET-[A-Z]{2}");
+        System.out.println("Loop Execution Time (ns): " + loopTime);
+        System.out.println("Stream Execution Time (ns): " + streamTime);
 
-        Matcher trainIdMatcher = trainIdPattern.matcher(trainId);
-        Matcher cargoCodeMatcher = cargoCodePattern.matcher(cargoCode);
-
-        System.out.println("\nValidation Results:");
-        System.out.println("Train ID Valid: " + trainIdMatcher.matches());
-        System.out.println("Cargo Code Valid: " + cargoCodeMatcher.matches());
-
-        System.out.println("\nUC11 validation completed...");
-
-        scanner.close();
+        System.out.println("\nUC13 performance benchmarking completed...");
     }
 }
