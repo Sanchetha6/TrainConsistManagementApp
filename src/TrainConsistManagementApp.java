@@ -21,8 +21,10 @@ public class TrainConsistManagementApp {
                 }
                 this.cargo = cargo;
                 System.out.println("Cargo assigned successfully -> " + cargo);
+
             } catch (CargoSafetyException e) {
                 System.out.println("Error: " + e.getMessage());
+
             } finally {
                 System.out.println("Cargo validation completed for " + shape + " bogie");
             }
@@ -30,7 +32,8 @@ public class TrainConsistManagementApp {
     }
 
     public static void main(String[] args) {
-        System.out.println(" UC15 - Safe Cargo Assignment ");
+
+        System.out.println(" UC15 - Safe Cargo Assignment");
 
         GoodsBogie cylindrical = new GoodsBogie("Cylindrical");
         cylindrical.assignCargo("Petroleum");
