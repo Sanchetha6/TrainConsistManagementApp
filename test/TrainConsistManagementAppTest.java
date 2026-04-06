@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import java.util.Arrays;
 
-public class TrainConsistManagementApp {
+class TrainConsistManagementAppTest {
 
     @Test
     void testSort_BasicAlphabeticalSorting() {
